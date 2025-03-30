@@ -22,8 +22,8 @@ model User {
   id         String   @id @default(cuid())
   username   String   @unique
   password   String
-  profilePic String?
-  bio        String
+  profilePic String
+  bio        String   @default("")
   email      String
   gender     Gender
   createdAt  DateTime @default(now())

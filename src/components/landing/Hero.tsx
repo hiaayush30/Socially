@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Button } from "../ui/button"
 import { ChevronDown } from "lucide-react"
+import Link from "next/link"
 
 function Hero() {
     return (
@@ -10,16 +11,18 @@ function Hero() {
                 <h2 className="text-6xl mb-2">No Privacy Risks</h2>
                 <h4 className="text-md text-stone-500">Share your thoughts securely and easily</h4>
                 <div className="flex items-center gap-3">
-                    <Button variant={"secondary"} className="my-4">Get Started</Button>
+                    <Button variant={"secondary"} className="my-4">
+                        <Link href={"/signup"}>Get Started</Link>
+                    </Button>
                     <Button className="my-4">
-                       <span>Explore</span>
-                       <ChevronDown className="size-5"/>
-                        </Button>
+                        <span>Explore</span>
+                        <ChevronDown className="size-5" />
+                    </Button>
                 </div>
             </div>
             <div>
                 <Image
-                className="object-cover rounded-lg shadow-md shadow-gray-500"
+                    className="object-cover rounded-lg shadow-md shadow-gray-500"
                     src={"/HeroImage.jpg"}
                     alt="Hero Image"
                     height={800}
