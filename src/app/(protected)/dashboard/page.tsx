@@ -1,12 +1,14 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth"
+import SideProfile from "./sideProfile";
+import Recommendations from "./recommendations";
 
 async function Dashboard() {
-  const session = await getServerSession(authOptions);
   return (
-    <div>
-      Dahsboard
-      <h3>{JSON.stringify(session?.user)}</h3>
+    <div className="pt-[10vh] flex min-h-screen justify-around">
+      <SideProfile />
+      <main className="w-[40vw] h-[200vh] bg-orange-500">
+
+      </main>
+      <Recommendations />
     </div>
   )
 }

@@ -1,14 +1,23 @@
 "use client"
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
+        if (error) {
+            setErrorMessage(decodeURIComponent(error));
+        }
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -26,12 +35,6 @@ export default function LoginPage() {
         })
     };
 
-    const searchParams = useSearchParams();
-    let errorMessage = searchParams.get("error");
-    if(errorMessage){
-        errorMessage = decodeURIComponent(errorMessage);
-    }
-
     return (
         <div className="min-h-screen flex items-center justify-center">
             <div className="flex flex-col items-center justify-centerp-4 rounded-lg border-2 p-4 border-stone-400">
@@ -48,7 +51,7 @@ export default function LoginPage() {
                         name="password"
                         placeholder="Password" required onChange={handleChange} />
                     <p className="text-red-500 px-2 text-sm text-center">{
-                        errorMessage && errorMessage
+                        errorMessage
                     }</p>
                     <button type="submit" className="bg-blue-500 text-white p-2 cursor-pointer hover:bg-blue-400">Login</button>
                 </form>
