@@ -2,27 +2,27 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../../../../lib/db";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
+import { UserInterface } from "@/types/schema";
 
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                identifier: { label: "Username", type: "text", placeholder: "john" },
+                username: { label: "Username", type: "text", placeholder: "john" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {  //constructs the jwt token
                 // Add logic here to look up the user from the credentials supplied
-                if (!credentials?.password || !credentials.identifier) {
+                if (!credentials?.password || !credentials.username) {
                     throw new Error("Invalid request!")
                 }
                 await prisma.$connect();
                 const user = await prisma.user.findFirst({
                     where: {
                         OR: [
-                            { username: credentials.identifier },
-                            { email: credentials.identifier }
+                            { username: credentials.username },
+                            { email: credentials.username }
                         ]
                     }
                 })
@@ -49,10 +49,6 @@ export const authOptions: NextAuthOptions = {
                     // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
             }
-        }),
-        GitHubProvider({
-            clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string
         })
     ],
     session: {
@@ -90,19 +86,22 @@ export const authOptions: NextAuthOptions = {
             }
             return token
         },
-        async session({ session, user }) { //this user came from what we returned in the authorize fn
+        async session({ session, token }) { //this user came from what we returned in the authorize fn
             // This callback modifies the session object that is sent to the client.
             // Runs every time useSession() or getSession() is called on the client.
             // Uses data from the token (not user, since user data is only available on login).
-            if (user) {
-                session.user.id = user.id;
-                session.user.username = user?.username;
-                session.user.bio = user.bio;
-                session.user.email = user.email;
-                session.user.gender = user.gender;
-                session.user.createdAt = user.createdAt;
-                session.user.updatedAt = user.updatedAt;
-                session.user.profilePic = user.profilePic;
+            
+            // console.log("token in session:"+token);
+            if (token) {
+                const data = token as unknown as UserInterface
+                session.user.id = data.id;
+                session.user.username = data.username;
+                session.user.bio = data.bio;
+                session.user.email = data.email;
+                session.user.gender = data.gender;
+                session.user.createdAt = data.createdAt;
+                session.user.updatedAt = data.updatedAt;
+                session.user.profilePic = data.profilePic;
             }
             return session
         }

@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
 import { useState } from "react";
+import {signIn} from "next-auth/react";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({
@@ -18,7 +19,10 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Login Data:", formData);
+        await signIn("credentials",{
+            ...formData,
+            callbackUrl:"/dashboard"
+        })
     };
 
     return (

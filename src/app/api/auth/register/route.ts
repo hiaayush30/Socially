@@ -1,4 +1,4 @@
-import { signUpSchema } from "@/types/validationSchema";
+import { signUpSchema } from "@/types/schema";
 import prisma from "@/lib/db";
 import bcrypt from "bcrypt";
 

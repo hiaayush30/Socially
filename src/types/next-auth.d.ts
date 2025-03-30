@@ -12,7 +12,7 @@ declare module "next-auth" {
             createdAt: Date;
             updatedAt: Date;
         } & DefaultSession['user']
-    } 
+    }
     interface User {
         id: string;
         email: string;
