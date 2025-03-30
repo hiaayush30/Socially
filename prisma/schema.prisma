@@ -12,3 +12,58 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Gender {
+  male
+  female
+}
+
+model User {
+  id         String   @id @default(cuid())
+  username   String   @unique
+  password   String
+  profilePic String?
+  bio        String
+  email      String
+  gender     Gender
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  posts          Post[]
+  likedPosts     PostLike[]
+  retweetedPosts PostRetweet[]
+}
+
+model Post {
+  id        String  @id @default(cuid())
+  caption   String
+  image     String?
+  likes     Int     @default(0)
+  retweets  Int     @default(0)
+  publicKey String?
+
+  user        User          @relation(fields: [postedBy], references: [id])
+  postedBy    String
+  likedBy     PostLike[]
+  retweetedBy PostRetweet[]
+}
+
+model PostLike {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id])
+  userId String //will be the table column
+  postId String
+
+  @@unique([userId, postId]) // Prevents duplicate likes
+}
+
+model PostRetweet {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id])
+  userId String
+  postId String
+
+  @@unique([userId, postId]) // Prevents duplicate retweets
+}

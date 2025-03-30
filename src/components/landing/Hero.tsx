@@ -8,7 +8,7 @@ function Hero() {
             <div>
                 <h2 className="text-6xl mb-2">No Ads</h2>
                 <h2 className="text-6xl mb-2">No Privacy Risks</h2>
-                <h4 className="text-md text-stone-500">Connect with your friends and family securely and easily</h4>
+                <h4 className="text-md text-stone-500">Share your thoughts securely and easily</h4>
                 <div className="flex items-center gap-3">
                     <Button variant={"secondary"} className="my-4">Get Started</Button>
                     <Button className="my-4">
