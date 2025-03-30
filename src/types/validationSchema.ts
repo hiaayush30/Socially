@@ -11,14 +11,3 @@ export const SignInSchema = zod.object({
     username: zod.string(), 
     password: zod.string()
 })
-
-export interface UserInterface {
-    email:string; 
-    username:string,
-    id:string;
-    profilePic:string;
-    bio:string;
-    gender:"male"|"female";
-    createdAt:Date;
-    updatedAt:Date;
-}
