@@ -17,8 +17,10 @@ export async function middleware(request: NextRequest) {
         ) {
             return NextResponse.redirect(new URL('/dashboard', request.url));
         }
-    } else {
-        return NextResponse.redirect(new URL('/', request.url));
+    } else if (!token) {
+        if (url.pathname.startsWith('/dashboard')) {
+            return NextResponse.redirect(new URL('/', request.url));
+        }
     }
 
     return NextResponse.next(); // Continue as normal
@@ -26,5 +28,5 @@ export async function middleware(request: NextRequest) {
 
 // Apply middleware only to these routes
 export const config = {
-    matcher: ['/dashboard/:path*'],
+    matcher: ['/dashboard/:path*', '/login', '/signup'],
 };

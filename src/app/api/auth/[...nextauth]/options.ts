@@ -3,9 +3,14 @@ import prisma from "../../../../lib/db";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import { UserInterface } from "@/types/schema";
+// import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        // GitHubProvider({
+        //     clientId: process.env.GITHUB_CLIENT_ID as string,
+        //     clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+        // }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -44,7 +49,7 @@ export const authOptions: NextAuthOptions = {
                     }
                 } else {
                     // If you return null then an error will be displayed advising the user to check their details.
-                    throw new Error("Something went wrong! Please try again later")
+                    throw new Error("username or password incorrect")
 
                     // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
@@ -90,7 +95,7 @@ export const authOptions: NextAuthOptions = {
             // This callback modifies the session object that is sent to the client.
             // Runs every time useSession() or getSession() is called on the client.
             // Uses data from the token (not user, since user data is only available on login).
-            
+
             // console.log("token in session:"+token);
             if (token) {
                 const data = token as unknown as UserInterface
@@ -105,6 +110,9 @@ export const authOptions: NextAuthOptions = {
             }
             return session
         }
+    },
+    pages: {
+        error: '/login'
     },
     secret: process.env.NEXTAUTH_SECRET
 }
