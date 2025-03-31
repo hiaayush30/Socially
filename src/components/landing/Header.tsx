@@ -14,8 +14,8 @@ function Header() {
           className="rounded-lg"
           src={"/logo.png"}
           alt="Socially logo"
-          height={60}
-          width={150} />
+          height={30}
+          width={80} />
       </Link>
       <div className="flex items-center gap-2 md:gap-5">
         <Button onClick={() => router.push("/login")}

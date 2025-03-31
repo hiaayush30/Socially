@@ -17,8 +17,9 @@ async function layout({ children }: { children: ReactNode }) {
                         className="rounded-lg"
                         src={"/logo.png"}
                         alt="Socially logo"
-                        height={60}
-                        width={150} />
+                        height={30}
+                        width={80}
+                    />
                 </Link>
                 <div className="flex items-center gap-2 md:gap-5">
                     <ModeToggle />
@@ -32,7 +33,7 @@ async function layout({ children }: { children: ReactNode }) {
                             width={32}
                         />
                     </Link>
-                    <LogoutButton/>
+                    <LogoutButton />
                 </div>
             </header>
             {children}

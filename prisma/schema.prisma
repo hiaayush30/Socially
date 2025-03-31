@@ -42,8 +42,8 @@ model Post {
   retweets  Int     @default(0)
   publicKey String?
 
-  user        User          @relation(fields: [postedBy], references: [id])
   postedBy    String
+  user        User          @relation(fields: [postedBy], references: [id])
   likedBy     PostLike[]
   retweetedBy PostRetweet[]
 }

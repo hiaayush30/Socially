@@ -2,13 +2,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
-
+    const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
@@ -28,16 +30,23 @@ export default function LoginPage() {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        await signIn("credentials", {
-            ...formData,
-            callbackUrl: "/dashboard"
-        })
+        try {
+            e.preventDefault();
+            setLoading(true);
+            await signIn("credentials", {
+                ...formData,
+                callbackUrl: "/dashboard"
+            })
+            toast("Logged in successfully");
+        } catch (error) {
+            setLoading(false);
+            toast("Error in login:" + error);
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="flex flex-col items-center justify-centerp-4 rounded-lg border-2 p-4 border-stone-400">
+            <div className="bg-gray-500/70 text-stone-100 backdrop-blur-md flex flex-col items-center justify-centerp-4 rounded-lg border-2 p-4 border-stone-400">
                 <h2 className="text-2xl font-bold mb-4">Login</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                     <input
@@ -53,7 +62,10 @@ export default function LoginPage() {
                     <p className="text-red-500 px-2 text-sm text-center">{
                         errorMessage
                     }</p>
-                    <button type="submit" className="bg-blue-500 text-white p-2 cursor-pointer hover:bg-blue-400">Login</button>
+                    <button type="submit"
+                        className="flex items-center justify-center bg-[#52BCE1] text-white p-2 cursor-pointer hover:bg-[#6ec6e4]">
+                        {loading ? <Loader2 className="animate-spin size-5" /> : 'Login'}
+                    </button>
                 </form>
                 {/* Login with github */}
                 {/* <div className="mt-4 w-full">
@@ -73,7 +85,7 @@ export default function LoginPage() {
                 </div> */}
                 <div className="my-2">New user?
                     <Link
-                        className="text-blue-500 px-2 hover:underline underline-offset-2"
+                        className="text-blue-400 px-2 hover:underline underline-offset-2"
                         href={"/signup"}>signup
                     </Link>
                 </div>

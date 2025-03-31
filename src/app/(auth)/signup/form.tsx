@@ -1,11 +1,13 @@
 "use client"
 import { ApiResponse } from "@/types/apiResponse";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 function Form() {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [confirmPassword, setConfirmPassword] = useState("");
     const [formData, setFormData] = useState({
@@ -32,6 +34,7 @@ function Form() {
             return toast("Gender required!")
         }
         try {
+            setLoading(true);
             const response = await axios.post("/api/auth/register", {
                 ...formData
             });
@@ -41,6 +44,8 @@ function Form() {
             console.log(error)
             const axiosError = error as AxiosError<ApiResponse>;
             toast(axiosError.response?.data.message ?? "Something went wrong! Please try again later")
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -66,7 +71,9 @@ function Form() {
                 </div>
             </fieldset>
 
-            <button type="submit" className="bg-blue-500 text-white p-2 cursor-pointer hover:bg-blue-400">Sign Up</button>
+            <button type="submit" className="flex items-center justify-center bg-[#52BCE1] text-white p-2 cursor-pointer hover:bg-[#6ec6e4]">
+            {loading ? <Loader2 className="animate-spin size-5" /> : 'Sign Up'}
+                </button>
         </form>
     )
 }
