@@ -59,7 +59,7 @@ export default function LoginPage() {
                         type="password"
                         name="password"
                         placeholder="Password" required onChange={handleChange} />
-                    <p className="text-red-500 px-2 text-sm text-center">{
+                    <p className="text-slate-100 bg-red-500 px-2 text-sm text-center">{
                         errorMessage
                     }</p>
                     <button type="submit"

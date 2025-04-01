@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ChevronRight, ChevronRightCircleIcon } from "lucide-react"
+import { ChevronRight} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -26,8 +26,8 @@ function Recommendations() {
     ]
     return (
         <div
-            className="hidden lg:block w-[25vw] xl:w-[22vw] rounded-lg max-h-[83vh] sticky top-[15vh] p-2
-            bg-gradient-to-r dark:from-stone-800 dark:via-[#1e1b4b] dark:to-[#312e81]  from-blue-50 via-blue-200 to-blue-100">
+            className="hidden overflow-auto lg:block w-[25vw] xl:w-[22vw] rounded-lg max-h-[83vh] sticky top-[15vh] p-2
+            bg-gradient-to-r dark:from-stone-600 dark:via-stone-700 dark:to-stone-800  from-blue-50 via-blue-200 to-blue-100">
             <div className="flex flex-col justify-center items-center mx-auto h-full">
                 <div className="flex flex-col items-start">
                     <h2 className="text-4xl font-semibold">Explore</h2>
@@ -48,8 +48,8 @@ function Recommendations() {
                                 <h4 className="font-semibold">{user.id}</h4>
                                 <p className="text-sm">{user.bio}</p>
                             </div>
-                            <Button>
-                                <ChevronRightCircleIcon />
+                            <Button className="rounded-full">
+                                <ChevronRight className="scale-150" />
                             </Button>
                         </div>
                     })}

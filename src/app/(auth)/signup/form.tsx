@@ -30,7 +30,7 @@ function Form() {
         if (formData.password !== confirmPassword) {
             return toast("passwords do not match!")
         }
-        if (!formData.gender){
+        if (!formData.gender) {
             return toast("Gender required!")
         }
         try {
@@ -60,11 +60,13 @@ function Form() {
                 <legend className="px-1">Gender</legend>
                 <div className="flex gap-4 justify-around">
                     <label className="flex gap-2">
-                        <input checked={formData.gender == "male"} type="checkbox" name="gender" value="male" onChange={handleChange} />
+                        <input className="scale-150"
+                            checked={formData.gender == "male"} type="checkbox" name="gender" value="male" onChange={handleChange} />
                         <span>Male</span>
                     </label>
                     <label className="flex gap-2">
-                        <input checked={formData.gender == "female"}
+                        <input className="scale-150"
+                            checked={formData.gender == "female"}
                             type="checkbox" name="gender" value="female" onChange={handleChange} />
                         <span>Female</span>
                     </label>
@@ -72,8 +74,8 @@ function Form() {
             </fieldset>
 
             <button type="submit" className="flex items-center justify-center bg-[#52BCE1] text-white p-2 cursor-pointer hover:bg-[#6ec6e4]">
-            {loading ? <Loader2 className="animate-spin size-5" /> : 'Sign Up'}
-                </button>
+                {loading ? <Loader2 className="animate-spin size-5" /> : 'Sign Up'}
+            </button>
         </form>
     )
 }

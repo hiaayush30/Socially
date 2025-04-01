@@ -35,12 +35,13 @@ model User {
 }
 
 model Post {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   caption   String
   image     String?
-  likes     Int     @default(0)
-  retweets  Int     @default(0)
-  publicKey String?
+  likes     Int      @default(0)
+  retweets  Int      @default(0)
+  imageKey  String?
+  createdAt DateTime @default(now())
 
   postedBy    String
   user        User          @relation(fields: [postedBy], references: [id])

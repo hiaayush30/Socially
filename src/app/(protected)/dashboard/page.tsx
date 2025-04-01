@@ -11,8 +11,8 @@ async function Dashboard() {
   return (
     <div className="pt-[10vh] flex min-h-screen justify-around">
       <SideProfile user={user} />
-      <main className="w-[70vw] pt-[5vh] md:w-[50vw] lg:w-[40vw] bg-orange-500">
-        <div className="flex flex-col items-center gap-5">
+      <main className="w-[80vw] pt-[5vh] md:w-[50vw] lg:w-[40vw]">
+        <div className="flex flex-col items-center gap-5 pb-10">
           <Post/>
           <Post/>
           <Post/>
