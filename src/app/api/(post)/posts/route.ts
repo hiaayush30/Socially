@@ -1,19 +1,20 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "../../auth/[...nextauth]/options"
 import prisma from "@/lib/db";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "../../auth/[...nextauth]/options";
 
 export const GET = async (req: Request) => {
-    const session = await getServerSession(authOptions);
+    // const session = await getServerSession(authOptions);
 
     const { searchParams } = new URL(req.url);
-    const skip = Number(searchParams.get("skip")) || 0; 
+    const skip = Number(searchParams.get("skip")) || 0;
 
-    if (!session) {
-        return Response.json({
-            success: false,
-            message: "Invalid Request"
-        }, { status: 403 })
-    } else {
+    // if (!session) {
+        
+        // return Response.json({
+        //     success: false,
+        //     message: "Unauthorized:Invalid Request"
+        // }, { status: 403 })
+    // } else {
         try {
             const posts = await prisma.post.findMany({
                 take: 5,
@@ -40,11 +41,11 @@ export const GET = async (req: Request) => {
                             postId: true
                         }
                     },
-                    user:{
-                        select:{
-                            id:true,
-                            profilePic:true,
-                            username:true,
+                    user: {
+                        select: {
+                            id: true,
+                            profilePic: true,
+                            username: true,
                         }
                     },
 
@@ -63,4 +64,4 @@ export const GET = async (req: Request) => {
             }, { status: 500 })
         }
     }
-}
+// }

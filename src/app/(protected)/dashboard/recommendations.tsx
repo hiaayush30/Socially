@@ -1,29 +1,25 @@
 import { Button } from "@/components/ui/button"
-import { ChevronRight} from "lucide-react"
+import { ApiResponse } from "@/types/apiResponse"
+import axios, { AxiosError } from "axios"
+import { ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-function Recommendations() {
-    const users = [
-        {
-            username: "bob",
-            id: "wihn213",
-            profilePic: "https://avatar.iran.liara.run/public/boy",
-            bio: "wecihewucge"
-        },
-        {
-            username: "bob",
-            id: "wihnqw213",
-            profilePic: "https://avatar.iran.liara.run/public/boy",
-            bio: "wecihewucge"
-        },
-        {
-            username: "bob",
-            id: "wihqwn213",
-            profilePic: "https://avatar.iran.liara.run/public/boy",
-            bio: "wecihewucge"
-        }
-    ]
+async function Recommendations() {
+    interface UserType {
+        username: string;
+        id: string;
+        profilePic: string;
+        bio?: string;
+    }
+    let users: Array<UserType> = [];
+    try {
+        const res = await axios.get('http://localhost:3000/api/randomUsers');
+        users = res.data?.users;
+    } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        console.log(axiosError.response?.data.message)
+    }
     return (
         <div
             className="hidden overflow-auto lg:block w-[25vw] xl:w-[22vw] rounded-lg max-h-[83vh] sticky top-[15vh] p-2
@@ -33,26 +29,37 @@ function Recommendations() {
                     <h2 className="text-4xl font-semibold">Explore</h2>
                     <h3 className="text-xl my-2">Users you may like to know</h3>
                 </div>
-                <div className="flex flex-col gap-1 items-center justify-center">
+                <div className={` ${users.length === 0 ? "justify-between" : "justify-center"} w-full h-full flex flex-col gap-1 items-center`}>
                     {users.map(user => {
                         return <div key={user.id}
-                            className="flex gap-2 my-5 border-3 border-stone-500 dark:border-stone-400 p-2 rounded-lg">
-                            <Image
-                                src={user.profilePic}
-                                alt="profilePic"
-                                height={40}
-                                width={40}
-                            // className="object-cover"
-                            />
-                            <div className="px-2">
-                                <h4 className="font-semibold">{user.id}</h4>
-                                <p className="text-sm">{user.bio}</p>
+                            className="w-full flex justify-between gap-2 my-5 border-3 border-stone-500 dark:border-stone-400 p-2 rounded-lg">
+                            <div className="flex items-center gap-2">
+                                <Link href={'/profile/' + user.id}>
+                                    <Image
+                                        src={user.profilePic}
+                                        alt="profilePic"
+                                        height={40}
+                                        width={40}
+                                    // className="object-cover"
+                                    />
+                                </Link>
+                                <div className="px-2">
+                                    <h4 className="font-semibold">{user.username}</h4>
+                                    <p className="text-sm">{user.bio}</p>
+                                </div>
                             </div>
-                            <Button className="rounded-full">
-                                <ChevronRight className="scale-150" />
-                            </Button>
+                            <Link href={'/profile/' + user.id}>
+                                <Button className="rounded-full">
+                                    <ChevronRight className="scale-150" />
+                                </Button>
+                            </Link>
                         </div>
                     })}
+                    {users.length === 0 &&
+                        <div className="h-full flex flex-col items-center">
+                            <span className="text-slate-400">Error in fetching users</span>
+                        </div>
+                    }
                 </div>
                 <Link href={"/users"}
                     className="flex items-center cursor-pointer mb-2"
