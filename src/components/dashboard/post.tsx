@@ -6,32 +6,43 @@ import { PostType } from "../../app/(protected)/dashboard/allPosts"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import PostSkeleton from "./postSeketon"
 
 function Post({ post }: { post: PostType }) {
     const session = useSession();
+
     const user = session.data?.user;
     const [loading, setLoading] = useState(false);
 
-    const [postLiked, setPostLiked] = useState<boolean>(() => {
+    const postLikedOrNot = () => {
         if (post.likedBy.some(like => like.userId === user?.id)) {
-            return true;
+            setPostLiked(true);
         } else {
-            return false;
+            setPostLiked(false);
         }
-    })
-    const [retweeted, setRetweeted] = useState<boolean>(() => {
-        if (post.retweetedBy.some(retweet=>retweet.userId===user?.id)) {
-            return true;
+    }
+
+    const postRetweetedOrNot = () => {
+        if (post.retweetedBy.some(retweet => retweet.userId === user?.id)) {
+            setRetweeted(true);
         } else {
-            return false;
+            setRetweeted(false);
         }
-    })
+    }
+
+    const [postLiked, setPostLiked] = useState<boolean>(false)
+    const [retweeted, setRetweeted] = useState<boolean>(false);
+
+    useEffect(() => {
+        postLikedOrNot();
+        postRetweetedOrNot();
+    }, [session.data?.user])
 
     const handleLike = async () => {
         if (loading) return; // Prevent multiple clicks
         setLoading(true);
-    
+
         try {
             const newLikeState = !postLiked; // Determine new state before updating
             setPostLiked(newLikeState);
@@ -46,17 +57,17 @@ function Post({ post }: { post: PostType }) {
             setLoading(false);
         }
     };
-    
+
     const handleRetweet = async () => {
         if (loading) return; // Prevent multiple clicks
         setLoading(true);
-    
+
         try {
             const newRetweetState = !retweeted; // Determine new state before updating
             setRetweeted(newRetweetState);
-    
+
             await axios.post("/api/retweet", { postId: post.id });
-    
+
             toast(newRetweetState ? "Post retweeted" : "Retweet removed");
         } catch (error) {
             console.log(error);
@@ -66,10 +77,19 @@ function Post({ post }: { post: PostType }) {
             setLoading(false);
         }
     };
-    
+
     const handleBookmark = async () => {
         toast("Feature comming soon 😊")
     }
+
+    if (session.status == "loading") return (
+        <>
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+        </>
+    );
     return (
         <div className="card w-[95%] p-2  rounded-md bg-blue-200 dark:bg-stone-800 flex items-center justify-start gap-2 flex-col">
             <header className="rounded-lg p-2 w-full flex justify-between gap-3 items-center
