@@ -1,7 +1,8 @@
 import prisma from "@/lib/db";
-import Post from "./post"
 
 import { Prisma } from "@prisma/client";
+import LoadMore from "../../../components/dashboard/LoadMore";
+// import LoadMore from "./LoadMore";
 
 // Infer the return type from Prisma query
 export type PostType = Prisma.PostGetPayload<{
@@ -84,10 +85,10 @@ async function AllPosts() {
     }
     return (
         <div className="flex flex-col items-center gap-5 pb-10">
-            {posts.map(post => {
+            {/* {posts.map(post => {
                 return <Post key={post.id} post={post} />
-            })}
-            {posts.length === 0 && <div className="pt-[30vh] text-slate-600">No posts to show!</div>}
+            })} */}
+            <LoadMore initialPosts={posts}/>
         </div>
     )
 }

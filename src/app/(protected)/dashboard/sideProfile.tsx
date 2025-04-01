@@ -21,7 +21,7 @@ function SideProfile({ user }: { user: UserInterface }) {
             width={180}
           />
         </div>
-        <h2 className="text-3xl">Hello {user.username} 👋</h2>
+        <h2 className="text-3xl">Hi {user.username} 👋</h2>
         <p>What&apos;s on your mind today?</p>
         <div className="flex flex-col  xl:flex-row items-center gap-6 xl:gap-2">
           <Button onClick={() => setCreatingPost(!creatingPost)}

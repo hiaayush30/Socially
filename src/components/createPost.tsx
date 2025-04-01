@@ -49,8 +49,9 @@ function NewPost({
                 caption
             })
             toast(res.data.message);
-            setPosting(false);
-            setCreatingPost(false);
+            // setPosting(false);
+            // setCreatingPost(false);
+            window.location.reload();
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
             toast(axiosError.response?.data.message);
@@ -95,6 +96,7 @@ function NewPost({
                         </Button>
                         {
                             image && <Button
+                                disabled={posting}
                                 onClick={handleDelete}
                                 variant={"secondary"}>Remove Pic</Button>
                         }

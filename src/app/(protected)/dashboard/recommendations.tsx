@@ -44,8 +44,8 @@ async function Recommendations() {
                                     />
                                 </Link>
                                 <div className="px-2">
-                                    <h4 className="font-semibold">{user.username}</h4>
-                                    <p className="text-sm">{user.bio}</p>
+                                    <h4 className="">{user.username}</h4>
+                                    <p className="text-sm dark:text-stone-300 text-slate-600">{user.bio ? user.bio : "No bio yet 😔"}</p>
                                 </div>
                             </div>
                             <Link href={'/profile/' + user.id}>
