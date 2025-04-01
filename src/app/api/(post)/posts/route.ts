@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/options"
+import { authOptions } from "../../auth/[...nextauth]/options"
 import prisma from "@/lib/db";
 
 export const GET = async (req: Request) => {
@@ -40,13 +40,14 @@ export const GET = async (req: Request) => {
                             postId: true
                         }
                     },
-                    user: {
-                        select: {
-                            id: true,
-                            profilePic: true,
-                            username: true
+                    user:{
+                        select:{
+                            id:true,
+                            profilePic:true,
+                            username:true,
                         }
-                    }
+                    },
+
                 }
             })
             return Response.json({
