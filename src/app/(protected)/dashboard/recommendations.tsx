@@ -14,7 +14,7 @@ async function Recommendations() {
     }
     let users: Array<UserType> = [];
     try {
-        const res = await axios.get('http://localhost:3000/api/randomUsers');
+        const res = await axios.get('/api/randomUsers');
         users = res.data?.users;
     } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
