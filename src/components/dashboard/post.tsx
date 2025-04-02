@@ -58,6 +58,18 @@ function Post({ post }: { post: PostType }) {
         }
     };
 
+    const [deleted, setDeleted] = useState(false);
+    const handleDelete = async () => {
+        try {
+            await axios.delete('/api/post?postId=' + post.id);
+            toast('post deleted');
+            setDeleted(true);
+        } catch (error) {
+            console.log(error);
+            toast("Something went wrong")
+        }
+    }
+
     const handleRetweet = async () => {
         if (loading) return; // Prevent multiple clicks
         setLoading(true);
@@ -91,7 +103,7 @@ function Post({ post }: { post: PostType }) {
         </>
     );
     return (
-        <div className="card w-[95%] p-2  rounded-md bg-blue-200 dark:bg-stone-800 flex items-center justify-start gap-2 flex-col">
+        <div className={`${deleted ? "hidden" : ""} w-[95%] p-2  rounded-md bg-blue-200 dark:bg-stone-800 flex items-center justify-start gap-2 flex-col`}>
             <header className="rounded-lg p-2 w-full flex justify-between gap-3 items-center
             bg-gradient-to-r dark:from-stone-800 dark:via-stone-700 dark:to-stone-600 from-blue-200 via-blue-100 to-blue-50">
                 <div className="flex items-center gap-3">
@@ -111,7 +123,8 @@ function Post({ post }: { post: PostType }) {
                         </h3>
                     </div>
                 </div>
-                {post.user.id === user?.id && <Trash2 className="hover:scale-105 hover:text-red-500 cursor-pointer" />}
+                {post.user.id === user?.id && <Trash2 onClick={handleDelete}
+                    className="hover:scale-105 hover:text-red-500 cursor-pointer" />}
             </header>
             <main>
                 {post.image && <Image

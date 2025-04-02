@@ -72,6 +72,17 @@ export const DELETE = async (req: Request) => {
                 message: "cannot delete someone else's post"
             }, { status: 400 })
         }
+        await prisma.postLike.deleteMany({
+            where: {
+                postId,
+            }
+        })
+
+        await prisma.postRetweet.deleteMany({
+            where: {
+                postId
+            }
+        })
         await prisma.post.delete({
             where: {
                 id: postId

@@ -11,7 +11,7 @@ async function layout({ children }: { children: ReactNode }) {
     const { user } = await getServerSession(authOptions) as { user: UserInterface };
     return (
         <div>
-            <header className="h-[10vh] items-center px-5 flex justify-between fixed top-0 w-full bg-blue-100 dark:bg-stone-800/80 backdrop-blur-md border-b">
+            <header className="h-[10vh] z-10 items-center px-5 flex justify-between fixed top-0 w-full bg-blue-100 dark:bg-stone-800/80 backdrop-blur-md border-b">
                 <Link href={"/dashboard"}>
                     <Image
                         className="rounded-lg"

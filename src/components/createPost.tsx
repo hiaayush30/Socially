@@ -61,7 +61,7 @@ function NewPost({
     }
 
     return (
-        <div className="bg-stone-800/90 fixed inset-0 z-20 flex justify-center items-center">
+        <div className="bg-stone-800/90 fixed inset-0 z-30 flex justify-center items-center">
             <Toaster />
             <Button disabled={closing} onClick={async () => {
                 setClosing(true)
