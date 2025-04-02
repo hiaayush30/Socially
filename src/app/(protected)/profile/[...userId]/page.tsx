@@ -63,7 +63,7 @@ export type UserType = Prisma.UserGetPayload<{
   }
 }>
 
-async function UserProfile({ params }: { params: { userId: string | string[] } }) {
+async function UserProfile({ params }: { params: any }) {
   const userId = Array.isArray(params.userId) ? params.userId[0] : params.userId;
   try {
     const foundUser = await prisma.user.findFirst({
