@@ -9,6 +9,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import PostSkeleton from "./postSeketon"
 
+
 function Post({ post }: { post: PostType }) {
     const session = useSession();
 
@@ -140,13 +141,13 @@ function Post({ post }: { post: PostType }) {
                     <button disabled={loading}>
                         <Heart
                             onClick={handleLike}
-                            className={`${postLiked ? "text-red-600" : ""} cursor-pointer hover:scale-110 hover:text-red-600`}
+                            className={`${postLiked ? "text-white bg-red-600 rounded-full p-1" : "hover:text-red-600"} cursor-pointer hover:scale-110`}
                         />
                     </button>
                     <button disabled={loading}>
                         <Repeat
                             onClick={handleRetweet}
-                            className={`${retweeted ? "text-green-600" : ""} cursor-pointer hover:scale-110 hover:text-green-600`}
+                            className={`${retweeted ? "text-white bg-green-600 rounded-full p-1" : "hover:text-green-600"} cursor-pointer hover:scale-110`}
                         />
                     </button>
                     <button disabled={loading}>
